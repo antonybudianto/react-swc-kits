@@ -19,14 +19,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antonybudianto/react-kits.git"
+    "url": "git+https://github.com/antonybudianto/react-swc-kits.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/antonybudianto/react-kits/issues"
+    "url": "https://github.com/antonybudianto/react-swc-kits/issues"
   },
-  "homepage": "https://github.com/antonybudianto/react-kits#readme",
+  "homepage": "https://github.com/antonybudianto/react-swc-kits#readme",
   "dependencies": {
     "@swc/cli": "0.1.50",
     "@swc/core": "1.2.89",

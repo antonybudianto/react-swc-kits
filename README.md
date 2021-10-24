@@ -36,8 +36,8 @@ Why not [create-react-app](https://github.com/facebook/create-react-app)?
 
 The project consists of following packages:
 
-- [react-kits-cli](https://github.com/antonybudianto/react-kits/tree/master/packages/react-kits-cli)
-- [react-kits-server](https://github.com/antonybudianto/react-kits/tree/master/packages/react-kits-server)
+- [react-kits-cli](https://github.com/antonybudianto/react-swc-kits/tree/master/packages/react-kits-cli)
+- [react-kits-server](https://github.com/antonybudianto/react-swc-kits/tree/master/packages/react-kits-server)
 
 They're managed by [Lerna](https://github.com/lerna/lerna) so you don't need to do stuff manually (linking, releasing, etc) :D
 

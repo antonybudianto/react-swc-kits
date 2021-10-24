@@ -1,6 +1,6 @@
 {
-  "name": "react-kits",
-  "description": "React Kits monorepo",
+  "name": "react-swc-kits",
+  "description": "React SWC Kits monorepo",
   "author": "Antony Budianto",
   "license": "MIT",
   "scripts": {
@@ -24,9 +24,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antonybudianto/react-kits.git"
+    "url": "git+https://github.com/antonybudianto/react-swc-kits.git"
   },
-  "homepage": "https://github.com/antonybudianto/react-kits#readme",
+  "homepage": "https://github.com/antonybudianto/react-swc-kits#readme",
   "devDependencies": {
     "react-refresh": "0.10.0",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.1",
