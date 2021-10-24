@@ -13,7 +13,7 @@ Why not [create-react-app](https://github.com/facebook/create-react-app)?
 
 ## Requirement
 
-- Node >= 8.10.0
+- Node >= 12
 
 ## Main features
 
@@ -57,7 +57,11 @@ yarn
 # Bootstrap packages
 yarn bootstrap
 
+# build server (first time, or as needed)
+yarn exec:server yarn build
+
 # Ready to develop locally!
+yarn temp:start
 ```
 
 ### Release packages
