@@ -1,0 +1,6 @@
+{
+  "app.js": "mock/app.js",
+  "vendor~app.js": "mock/vendor.js",
+  "app.css": "mock/app.css",
+  "vendor~app.css": "mock/vendor.css"
+}

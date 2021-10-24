@@ -1,0 +1,55 @@
+{
+  "name": "react-kits-server",
+  "version": "4.0.0-alpha.0",
+  "description": "Express server for react-kits",
+  "source": "src/index.js",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "microbundle --jsx=React.createElement",
+    "watch": "microbundle watch --jsx=React.createElement --compress=false",
+    "test": "jest --env=node --coverage",
+    "test:dev": "jest --env=node --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonybudianto/react-kits-server.git"
+  },
+  "author": "Antony",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/antonybudianto/react-kits-server/issues"
+  },
+  "homepage": "https://github.com/antonybudianto/react-kits-server#readme",
+  "jest": {
+    "moduleDirectories": [
+      "src",
+      "node_modules",
+      "../react-kits-cli/template/node_modules"
+    ]
+  },
+  "peerDependencies": {
+    "@loadable/component": "*",
+    "react": "*",
+    "react-dom": "*",
+    "react-helmet-async": "1.1.2",
+    "react-kits": "*",
+    "react-router-dom": "*",
+    "redux": "*"
+  },
+  "dependencies": {
+    "@loadable/server": "5.15.1",
+    "express": "^4.16.3",
+    "morgan": "^1.9.0",
+    "react-redux": "^5.0.7",
+    "serialize-javascript": "^1.5.0"
+  },
+  "devDependencies": {
+    "microbundle": "0.6.0"
+  }
+}

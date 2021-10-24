@@ -1,0 +1,42 @@
+{
+  "name": "react-kits",
+  "description": "React Kits monorepo",
+  "author": "Antony Budianto",
+  "license": "MIT",
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "clean": "lerna clean",
+    "ls": "lerna ls",
+    "test": "lerna run --stream test",
+    "lint": "lerna run --stream lint",
+    "watch": "lerna run --parallel watch",
+    "build": "lerna run build",
+    "build:lib": "lerna run build --ignore=~~name~~",
+    "prerelease": "npm run build:lib",
+    "release": "lerna publish",
+    "release:next": "npm run release -- --npm-tag=next",
+    "exec:server": "lerna exec --scope react-kits-server --",
+    "exec:tmp": "lerna exec --scope=~~name~~ --",
+    "temp:start": "npm run exec:tmp npm start",
+    "temp:build": "npm run exec:tmp npm run build",
+    "temp:servelocal": "npm run exec:tmp npm run servelocal",
+    "temp:lint": "npm run exec:tmp npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonybudianto/react-kits.git"
+  },
+  "homepage": "https://github.com/antonybudianto/react-kits#readme",
+  "devDependencies": {
+    "react-refresh": "0.10.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.5.1",
+    "@swc/cli": "0.1.50",
+    "@swc/core": "1.2.89",
+    "swc-loader": "0.1.15",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.2.1",
+    "jest": "^23.6.0",
+    "lerna": "^3.2.1"
+  }
+}

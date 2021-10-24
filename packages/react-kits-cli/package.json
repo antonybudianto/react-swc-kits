@@ -1,0 +1,65 @@
+{
+  "name": "react-kits",
+  "version": "4.0.0-alpha.0",
+  "description": "React dev kits",
+  "main": "src/index.js",
+  "bin": {
+    "react-kits": "./src/index.js"
+  },
+  "files": [
+    "src",
+    "lib",
+    "template"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonybudianto/react-kits.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/antonybudianto/react-kits/issues"
+  },
+  "homepage": "https://github.com/antonybudianto/react-kits#readme",
+  "dependencies": {
+    "@swc/cli": "0.1.50",
+    "@swc/core": "1.2.89",
+    "swc-loader": "0.1.15",
+    "@loadable/webpack-plugin": "5.15.1",
+    "chalk": "^2.4.1",
+    "copy-webpack-plugin": "4.6.0",
+    "css-loader": "^1.0.1",
+    "del": "^3.0.0",
+    "eslint": "^5.9.0",
+    "eslint-plugin-jest": "^22.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "file-loader": "^1.1.11",
+    "mini-css-extract-plugin": "2.4.3",
+    "null-loader": "^0.1.1",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "react-hot-loader": "4.8.0",
+    "recursive-copy": "^2.0.9",
+    "run-script-webpack-plugin": "0.0.11",
+    "style-loader": "^0.23.1",
+    "terser-webpack-plugin": "5.2.4",
+    "through2": "^2.0.5",
+    "url-loader": "^1.1.2",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.2.1",
+    "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-dev-middleware": "5.2.1",
+    "webpack-hot-middleware": "2.25.1",
+    "webpack-manifest-plugin": "4.0.2",
+    "webpack-merge": "5.8.0",
+    "webpack-node-externals": "^1.7.2",
+    "yargs": "^12.0.5",
+    "yarn-install": "^1.0.0"
+  }
+}
