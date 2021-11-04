@@ -1,8 +1,8 @@
 import { renderRoutes, matchRoutes } from 'react-router-config'
 
 import HomeRoute from './Home'
-import NotFoundRoute from './NotFoundPage'
-import AboutRoute from './About'
+import NotFoundRoute from './NotFoundPage/index.loadable'
+import AboutRoute from './About/index.loadable'
 
 const routes = [{ ...HomeRoute }, { ...AboutRoute }, { ...NotFoundRoute }]
 

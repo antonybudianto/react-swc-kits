@@ -50,8 +50,20 @@ const config = {
       project.paths.client('renderer/client'),
     ],
   },
+  resolve: {
+    fallback: { path: false },
+  },
   module: {
     rules: [
+      {
+        test: /\.loadable\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        options: {
+          babelrc: false,
+          plugins: ['@loadable/babel-plugin'],
+        },
+      },
       {
         test: /\.m?jsx?$/,
         exclude: /(node_modules)/,

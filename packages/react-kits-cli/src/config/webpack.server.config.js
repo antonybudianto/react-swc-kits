@@ -24,21 +24,21 @@ let config = {
   module: {
     rules: [
       {
+        test: /\.loadable\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        options: {
+          babelrc: false,
+          plugins: ['@loadable/babel-plugin'],
+        },
+      },
+      {
         test: /\.m?jsx?$/,
         exclude: /(node_modules)/,
         use: {
           loader: 'swc-loader',
         },
       },
-      // {
-      //   test: /\.jsx?$/,
-      //   loader: 'babel-loader',
-      //   exclude: /node_modules/,
-      //   options: {
-      //     babelrc: false,
-      //     extends: resolveDir('../config/.server.babelrc')
-      //   }
-      // },
       {
         test: /\.s?[ac]ss$/,
         use: 'null-loader',
