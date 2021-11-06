@@ -51,7 +51,6 @@ export default async ({
   );
 
   const statsFile = resolveCwd('dist/loadable-stats.json');
-  console.log('statsFile', statsFile);
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ['app'] });
   const jsx = extractor.collectChunks(rootEl);
   let content = renderToString(jsx);
