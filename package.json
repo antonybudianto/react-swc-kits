@@ -28,14 +28,6 @@
   },
   "homepage": "https://github.com/antonybudianto/react-swc-kits#readme",
   "devDependencies": {
-    "react-refresh": "0.10.0",
-    "@pmmmwh/react-refresh-webpack-plugin": "0.5.1",
-    "@swc/cli": "0.1.50",
-    "@swc/core": "1.2.89",
-    "swc-loader": "0.1.15",
-    "webpack": "^5.51.1",
-    "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^4.2.1",
     "jest": "^23.6.0",
     "lerna": "^3.2.1"
   }
