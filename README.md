@@ -27,10 +27,10 @@ Why not [create-react-app](https://github.com/facebook/create-react-app)?
 
 ## Tech stacks
 
-|                                                                          |                                |                                                                     |                                   |
-| ------------------------------------------------------------------------ | ------------------------------ | ------------------------------------------------------------------- | --------------------------------- |
-| [React](https://reactjs.org/)                                            | [Redux](https://redux.js.org/) | [React Helmet Async](https://github.com/staylor/react-helmet-async) | [Express](https://expressjs.com/) |
-| [loadable-component](https://github.com/smooth-code/loadable-components) | TBC                            | [SWC](https://swc.rs/)                                              | [Jest](https://jestjs.io/)        |
+|                               |                                |                                                                     |                                   |
+| ----------------------------- | ------------------------------ | ------------------------------------------------------------------- | --------------------------------- |
+| [React](https://reactjs.org/) | [Redux](https://redux.js.org/) | [React Helmet Async](https://github.com/staylor/react-helmet-async) | [Express](https://expressjs.com/) |
+| TBC                           | TBC                            | [SWC](https://swc.rs/)                                              | [Jest](https://jestjs.io/)        |
 
 ## Structure
 

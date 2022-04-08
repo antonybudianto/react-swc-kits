@@ -17,7 +17,7 @@
     "release:next": "npm run release -- --npm-tag=next",
     "exec:server": "lerna exec --scope react-kits-server --",
     "exec:tmp": "lerna exec --scope=~~name~~ --",
-    "temp:start": "npm run exec:tmp npm start",
+    "temp:dev": "npm run exec:tmp npm start",
     "temp:build": "npm run exec:tmp npm run build",
     "temp:servelocal": "npm run exec:tmp npm run servelocal",
     "temp:lint": "npm run exec:tmp npm run lint"

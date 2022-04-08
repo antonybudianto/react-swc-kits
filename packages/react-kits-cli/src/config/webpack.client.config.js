@@ -6,7 +6,6 @@ const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 // const { GenerateSW } = require('workbox-webpack-plugin');
-const LoadablePlugin = require('@loadable/webpack-plugin');
 
 const { log } = require('../util/log');
 const { generateKitConfig } = require('../util/config');
@@ -56,15 +55,6 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.loadable\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/,
-        options: {
-          babelrc: false,
-          plugins: ['@loadable/babel-plugin'],
-        },
-      },
-      {
         test: /\.m?jsx?$/,
         exclude: /(node_modules)/,
         use: {
@@ -101,16 +91,14 @@ const config = {
           new webpack.HotModuleReplacementPlugin(),
         ]
       : [
-          new WebpackManifestPlugin({
-            fileName: 'build-manifest.json',
-          }),
           new BundleAnalyzerPlugin({
             analyzerMode: 'static',
             openAnalyzer: false,
           }),
         ]),
-    new LoadablePlugin({
-      writeToDisk: true,
+    new WebpackManifestPlugin({
+      writeToFileEmit: true,
+      fileName: 'build-manifest.json',
     }),
     new CopyWebpackPlugin(['public']),
     new MiniCssExtractPlugin({

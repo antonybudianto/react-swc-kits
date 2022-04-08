@@ -1,10 +1,8 @@
 import React from 'react';
 import serialize from 'serialize-javascript';
 import { renderToString } from 'react-dom/server';
-import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { ChunkExtractor } from '@loadable/server';
 
 const fs = require('fs');
 const path = require('path');
@@ -15,7 +13,6 @@ function resolveCwd(name) {
 
 export default async ({
   expressCtx,
-  store,
   context,
   onRender,
   assetUrl = '/',
@@ -38,22 +35,25 @@ export default async ({
   const promiseOfEl =
     elementData instanceof Promise ? elementData : Promise.resolve(elementData);
   const appEl = await promiseOfEl;
-  let helmetCtx = {};
+  const helmetCtx = {};
 
   const rootEl = (
     <HelmetProvider context={helmetCtx}>
-      <Provider store={store}>
-        <StaticRouter location={reqUrl} context={context}>
-          {appEl}
-        </StaticRouter>
-      </Provider>
+      <StaticRouter location={reqUrl} context={context}>
+        {appEl}
+      </StaticRouter>
     </HelmetProvider>
   );
 
-  const statsFile = resolveCwd('dist/loadable-stats.json');
-  console.log('statsFile', statsFile);
-  const extractor = new ChunkExtractor({ statsFile, entrypoints: ['app'] });
-  const jsx = extractor.collectChunks(rootEl);
+  const statsFile = resolveCwd('dist/build-manifest.json');
+  const stats = JSON.parse(fs.readFileSync(statsFile, { encoding: 'utf-8' }));
+  const styleTag = `<link href="${stats['app.css']}" rel="stylesheet" />`;
+  const scriptTags = `<script src="${
+    stats['vendor.js']
+  }" type="text/javascript"></script>
+  <script src="${stats['app.js']}" type="text/javascript"></script>`;
+
+  const jsx = rootEl;
   let content = renderToString(jsx);
   const { helmet } = helmetCtx;
 
@@ -62,7 +62,7 @@ export default async ({
   let helmetLink = helmet.link.toString();
   let helmetScript = helmet.script.toString();
   let initScript = `<script type="text/javascript">window.INITIAL_STATE = ${serialize(
-    store.getState()
+    {}
   )};</script>`;
 
   if (shell) {
@@ -74,20 +74,14 @@ export default async ({
     initScript = '';
   }
 
-  return `<!doctype html>
+  return `<!DOCTYPE html>
   <html>
   <head>
     ${helmetTitle}
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-    ${[
-      helmetMeta,
-      extractor.getLinkTags(),
-      extractor.getStyleTags(),
-      helmetLink
-    ]
-      .filter(s => s !== '')
-      .join('\n')}
+    ${[helmetMeta, helmetLink].filter(s => s !== '').join('\n')}
+    ${styleTag}
   </head>
   <body>
     <div id='root'>${content}</div>
@@ -95,12 +89,12 @@ export default async ({
     ${[
       initScript,
       helmetScript,
-      template.renderBottom({ expressCtx, store }),
-      dllScript,
-      extractor.getScriptTags()
+      template.renderBottom({ expressCtx }),
+      dllScript
     ]
       .filter(s => s !== '')
       .join('\n')}
+    ${scriptTags}
   </body>
   </html>`;
 };

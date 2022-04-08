@@ -22,12 +22,6 @@ function MockExtractor() {
   };
 }
 
-jest.mock('@loadable/server', () => {
-  return {
-    ChunkExtractor: MockExtractor
-  };
-});
-
 test('works with minimum setup', done => {
   serverRenderer({
     expressCtx: {

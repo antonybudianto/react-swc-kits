@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { UserAgent } from 'react-ua'
@@ -11,79 +10,50 @@ import TestView from './TestView'
 import { ABOUT_PATH } from '../../constant/url'
 import HomeHook from './HomeHook'
 
-class HomeView extends Component {
-  static propTypes = {
-    user: PropTypes.object,
-    toggleLogin: PropTypes.func
-  }
+const HomeView = () => {
+  const [text, setText] = useState('')
+  const [login, setLogin] = useState(false)
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      text: ''
-    }
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     fetch('/api/hello')
       .then(r => r.json())
       .then(data => {
-        this.setState({
-          text: data.text
-        })
+        setText(data.text)
       })
       .catch(err => {
         console.error(err)
-        this.setState({
-          text: 'Error fetch data'
-        })
+        setText('Error fetch data')
       })
-  }
+  }, [])
 
-  render() {
-    return (
-      <div className="home-view">
-        <div className="my2">home view</div>
-        <div>
-          user: {this.props.user.isLoggedIn ? 'loggedIn' : 'notLoggedIn'}
-        </div>
-        <div className="my2">
-          <button onClick={this.props.toggleLogin}>toggle login</button>
-          <Link
-            style={{
-              color: 'white'
-            }}
-            to={ABOUT_PATH}
-          >
-            visit About
-          </Link>
-        </div>
-        <TestView />
-        <UserAgent>
-          {ua => {
-            if (ua) {
-              return <div>OS: {ua.os.name}</div>
-            }
-            return null
+  return (
+    <div className="home-view">
+      <div className="my2">home view</div>
+      <div>user: {login ? 'loggedIn' : 'notLoggedIn'}</div>
+      <div className="my2">
+        <button onClick={() => setLogin(l => !l)}>toggle login</button>
+        <Link
+          style={{
+            color: 'white'
           }}
-        </UserAgent>
-        <div>Fetch hello api: {this.state.text}</div>
-        <HomeHook />
+          to={ABOUT_PATH}
+        >
+          visit About
+        </Link>
       </div>
-    )
-  }
+      <TestView />
+      <UserAgent>
+        {ua => {
+          if (ua) {
+            return <div>OS: {ua.os.name}</div>
+          }
+          return null
+        }}
+      </UserAgent>
+      <div>Fetch hello api: {text}</div>
+      <HomeHook />
+    </div>
+  )
 }
 
-const mapStateToProps = state => ({
-  user: state.user
-})
-
-const mapDispatchToProps = {
-  toggleLogin
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HomeView)
+export default HomeView

@@ -1,22 +1,23 @@
-import { renderRoutes, matchRoutes } from 'react-router-config'
+import { lazy, Suspense } from 'react'
+import { Switch, Route } from 'react-router-dom'
+import { ABOUT_PATH, HOME_PATH } from '../constant/url'
+import HomeView from './Home/HomeView'
 
-import HomeRoute from './Home'
-import NotFoundRoute from './NotFoundPage/index.loadable'
-import AboutRoute from './About/index.loadable'
+const NotFoundPage = lazy(() => import('./NotFoundPage/NotFoundPage'))
+const AboutView = lazy(() => import('./About/AboutView'))
 
-const routes = [{ ...HomeRoute }, { ...AboutRoute }, { ...NotFoundRoute }]
-
-export const getInitialData = (req, store) => {
-  const path = req.path
-  return matchRoutes(routes, path).map(({ route }) => {
-    const promises = []
-    if (route.loadData) {
-      promises.push(route.loadData(store, req))
-    }
-    return Promise.all(promises)
-  })
+export const getInitialData = req => {
+  return []
 }
 
 export default function renderAppRoutes() {
-  return renderRoutes(routes)
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        <Route exact path={HOME_PATH} component={HomeView} />
+        <Route exact path={ABOUT_PATH} component={AboutView} />
+        <Route exact path="**" component={NotFoundPage} />
+      </Switch>
+    </Suspense>
+  )
 }
