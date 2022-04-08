@@ -2,57 +2,47 @@ import React from 'react';
 
 process.env.NODE_ENV = 'production';
 
-const serverRenderer = require('./serverRenderer').default;
+jest.mock('fs');
+const fs = require('fs');
 
-function MockExtractor() {
-  return {
-    getScriptTags: jest.fn(),
-    getStyleTags: jest.fn(),
-    getLinkTags: jest.fn(),
-    collectChunks: d => d
-  };
-}
-
-test('works with minimum setup', done => {
-  serverRenderer({
-    expressCtx: {
-      req: {
-        query: {}
-      },
-      res: {}
-    },
-    context: {},
-    store: {
-      dispatch: jest.fn(),
-      subscribe: jest.fn(),
-      getState: jest.fn()
-    },
-    onRender: () => <div>test123</div>
-  }).then(str => {
-    expect(str).toMatch(/test123/);
-    done();
+let serverRenderer;
+describe('serverRenderer', () => {
+  beforeAll(() => {
+    fs.readFileSync.mockReturnValue('{}');
+    serverRenderer = require('./serverRenderer').default;
   });
-});
 
-test('works with minimum setup - with shell', done => {
-  serverRenderer({
-    expressCtx: {
-      req: {
-        query: {
-          'rkit-shell': true
-        }
+  test('works with minimum setup', done => {
+    serverRenderer({
+      expressCtx: {
+        req: {
+          query: {}
+        },
+        res: {}
       },
-      res: {}
-    },
-    context: {},
-    store: {
-      dispatch: jest.fn(),
-      subscribe: jest.fn(),
-      getState: jest.fn()
-    },
-    onRender: () => <div>test123</div>
-  }).then(str => {
-    expect(str).toMatch(/window\.__shell__ = true/);
-    done();
+      context: {},
+      onRender: () => <div>test123</div>
+    }).then(str => {
+      expect(str).toMatch(/test123/);
+      done();
+    });
+  });
+
+  test('works with minimum setup - with shell', done => {
+    serverRenderer({
+      expressCtx: {
+        req: {
+          query: {
+            'rkit-shell': true
+          }
+        },
+        res: {}
+      },
+      context: {},
+      onRender: () => <div>test123</div>
+    }).then(str => {
+      expect(str).toMatch(/window\.__shell__ = true/);
+      done();
+    });
   });
 });

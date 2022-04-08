@@ -72,15 +72,6 @@
     "iOS >= 9",
     "not ie < 11"
   ],
-  "jest": {
-    "testURL": "http://localhost",
-    "globals": {
-      "__DEV__": false,
-      "__TEST__": true,
-      "__PROD__": false,
-      "__STAG__": false
-    }
-  },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
     "axios": "0.18.0",
@@ -108,7 +99,8 @@
   },
   "devDependencies": {
     "http-proxy-middleware": "^0.19.1",
-    "jest": "23.6.0",
+    "jest": "27.5.1",
+    "@swc/jest": "0.2.20",
     "prettier": "1.15.3",
     "react-kits": "^5.0.0",
     "webpack-hot-middleware": "^2.24.3"

@@ -28,8 +28,6 @@
   },
   "homepage": "https://github.com/antonybudianto/react-swc-kits#readme",
   "dependencies": {
-    "babel-loader": "^8.0.4",
-    "@babel/core": "7.16.0",
     "@swc/cli": "0.1.50",
     "@swc/core": "1.2.89",
     "chalk": "^2.4.1",
