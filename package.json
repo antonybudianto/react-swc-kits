@@ -3,25 +3,22 @@
   "description": "React SWC Kits monorepo",
   "author": "Antony Budianto",
   "license": "MIT",
+  "private": "true",
   "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "bs": "lerna bootstrap",
-    "clean": "lerna clean",
-    "ls": "lerna ls",
-    "test": "lerna run --stream test",
-    "lint": "lerna run --stream lint",
-    "watch": "lerna run --parallel watch",
-    "build": "lerna run build",
-    "build:lib": "lerna run build --ignore=~~name~~",
+    "bootstrap": "pnpm recursive install",
+    "bs": "npm run bootstrap",
+    "ls": "pnpm list",
+    "test": "pnpm run test",
+    "lint": "pnpm run lint",
+    "watch": "pnpm run watch",
+    "build:lib": "pnpm run build --filter=!~~name~~",
+    "release": "pnpm publish",
     "prerelease": "npm run build:lib",
-    "release": "lerna publish",
-    "release:next": "npm run release -- --npm-tag=next",
-    "exec:server": "lerna exec --scope react-kits-server --",
-    "exec:tmp": "lerna exec --scope=~~name~~ --",
-    "temp:dev": "npm run exec:tmp npm start",
-    "temp:build": "npm run exec:tmp npm run build",
-    "temp:servelocal": "npm run exec:tmp npm run servelocal",
-    "temp:lint": "npm run exec:tmp npm run lint"
+    "build:server": "pnpm run build --filter=react-kits-server",
+    "temp:dev": "pnpm run start --filter=~~name~~",
+    "temp:build": "pnpm run build --filter=~~name~~",
+    "temp:servelocal": "pnpm run servelocal --filter=~~name~~",
+    "temp:lint": "pnpm run lint --filter=~~name~~"
   },
   "repository": {
     "type": "git",
@@ -36,7 +33,11 @@
     "swc-loader": "0.1.15",
     "webpack": "^5.51.1",
     "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^4.2.1",
-    "lerna": "^3.2.1"
+    "webpack-dev-server": "^4.2.1"
+  },
+  "packageManager": "pnpm@6.32.3",
+  "engines": {
+    "node": ">=14.17 <15",
+    "pnpm": ">=6 <7"
   }
 }
