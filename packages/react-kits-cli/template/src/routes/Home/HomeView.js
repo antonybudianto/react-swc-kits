@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { UserAgent } from 'react-ua'
 
-import { toggleLogin } from '../../reducers/user'
 import './HomeView.css'
 import TestView from './TestView'
 import { ABOUT_PATH } from '../../constant/url'
