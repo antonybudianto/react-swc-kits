@@ -47,7 +47,7 @@ export default async ({
 
   const statsFile = resolveCwd('dist/build-manifest.json');
   const stats = JSON.parse(fs.readFileSync(statsFile, { encoding: 'utf-8' }));
-  const styleTag = `<link href="${stats['app.css']}" rel="stylesheet" />`;
+  const styleTag = stats['app.css'] ? `<link href="${stats['app.css']}" rel="stylesheet" />` : '';
   const scriptTags = `<script src="${
     stats['vendor.js']
   }" type="text/javascript"></script>

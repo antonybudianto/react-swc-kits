@@ -71,15 +71,15 @@ let config = {
       },
       {
         test: /\.(png|jpg)$/,
-        loader: 'url-loader',
-        options: {
-          limit: 8192,
-        },
+        type: 'asset/resource',
       },
     ],
   },
   optimization: {
     minimizer: [new OptimizeCSSAssetsPlugin({})],
+  },
+  performance: {
+    hints: false,
   },
   plugins: [new webpack.DefinePlugin(project.globals)],
 };

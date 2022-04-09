@@ -4,7 +4,7 @@
   "description": "react ssr starter",
   "private": true,
   "scripts": {
-    "start": "bnr start",
+    "dev": "bnr start",
     "clean": "react-kits clean",
     "lint": "react-kits lint",
     "dll": "react-kits build-dll",
@@ -99,6 +99,7 @@
     "http-proxy-middleware": "^0.19.1",
     "jest": "27.5.1",
     "@swc/jest": "0.2.20",
+    "@swc/core": "1.2.89",
     "prettier": "1.15.3",
     "react-kits": "^6.0.0",
     "webpack-hot-middleware": "^2.24.3"

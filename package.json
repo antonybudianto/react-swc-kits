@@ -6,6 +6,7 @@
   "private": "true",
   "scripts": {
     "bootstrap": "pnpm recursive install",
+    "clean": "rm -rf node_modules packages/react-kits-cli/node_modules packages/react-kits-cli/template/node_modules packages/react-kits-server/node_modules",
     "bs": "npm run bootstrap",
     "ls": "pnpm list",
     "test": "pnpm run test",
@@ -15,7 +16,7 @@
     "release": "pnpm publish",
     "prerelease": "npm run build:lib",
     "build:server": "pnpm run build --filter=react-kits-server",
-    "temp:dev": "pnpm run start --filter=~~name~~",
+    "temp:dev": "pnpm run dev --filter=~~name~~",
     "temp:build": "pnpm run build --filter=~~name~~",
     "temp:servelocal": "pnpm run servelocal --filter=~~name~~",
     "temp:lint": "pnpm run lint --filter=~~name~~"
@@ -27,13 +28,7 @@
   "homepage": "https://github.com/antonybudianto/react-swc-kits#readme",
   "devDependencies": {
     "react-refresh": "0.10.0",
-    "@pmmmwh/react-refresh-webpack-plugin": "0.5.1",
-    "@swc/cli": "0.1.50",
-    "@swc/core": "1.2.89",
-    "swc-loader": "0.1.15",
-    "webpack": "^5.51.1",
-    "webpack-cli": "^4.8.0",
-    "webpack-dev-server": "^4.2.1"
+    "@pmmmwh/react-refresh-webpack-plugin": "0.5.1"
   },
   "packageManager": "pnpm@6.32.3",
   "engines": {

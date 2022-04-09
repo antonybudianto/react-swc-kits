@@ -35,13 +35,14 @@
     "react-router-dom": "*"
   },
   "dependencies": {
-    "express": "^4.16.3",
-    "morgan": "^1.9.0",
+    "express": "4.17.3",
+    "morgan": "1.9.0",
     "serialize-javascript": "^1.5.0"
   },
   "devDependencies": {
     "microbundle": "0.6.0",
     "jest": "27.5.1",
-    "@swc/jest": "0.2.20"
+    "@swc/jest": "0.2.20",
+    "@swc/core": "1.2.89"
   }
 }
