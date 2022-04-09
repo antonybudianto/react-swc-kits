@@ -54,17 +54,9 @@ export function createReactServer(config) {
         return serverRender(data);
       })
       .then(html => {
-        if (context.status) {
-          return res.status(context.status).send(html);
-        }
-        if (context.url) {
-          return res.redirect(302, context.url);
-        }
-        res.send(html);
       })
       .catch(err => {
         console.error('Error serverRender:\n', err);
-        res.sendStatus(500);
       });
   });
 

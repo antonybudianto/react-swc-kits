@@ -1,6 +1,6 @@
 import React from 'react';
 import serialize from 'serialize-javascript';
-import { renderToString } from 'react-dom/server';
+import { renderToPipeableStream } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -54,47 +54,79 @@ export default async ({
   <script src="${stats['app.js']}" type="text/javascript"></script>`;
 
   const jsx = rootEl;
-  let content = renderToString(jsx);
-  const { helmet } = helmetCtx;
-
-  let helmetTitle = helmet.title.toString();
-  let helmetMeta = helmet.meta.toString();
-  let helmetLink = helmet.link.toString();
-  let helmetScript = helmet.script.toString();
+  
   let initScript = `<script type="text/javascript">window.INITIAL_STATE = ${serialize(
     {}
-  )};</script>`;
+  )};</script>`;  
 
-  if (shell) {
-    content = '';
-    helmetTitle = '';
-    helmetLink = '';
-    helmetMeta = '';
-    helmetScript = '';
-    initScript = '';
-  }
+  const { pipe } = renderToPipeableStream(jsx, {
+    onAllReady() {
+      if (context.url) {
+        return res.redirect(302, context.url);
+      }
 
-  return `<!DOCTYPE html>
-  <html>
-  <head>
-    ${helmetTitle}
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-    ${[helmetMeta, helmetLink].filter(s => s !== '').join('\n')}
-    ${styleTag}
-  </head>
-  <body>
-    <div id='root'>${content}</div>
-    <script type="text/javascript">window.__shell__ = ${shell};</script>
-    ${[
-      initScript,
-      helmetScript,
-      template.renderBottom({ expressCtx }),
-      dllScript
-    ]
-      .filter(s => s !== '')
-      .join('\n')}
-    ${scriptTags}
-  </body>
-  </html>`;
-};
+      const { helmet } = helmetCtx;
+      let helmetTitle = helmet.title.toString();
+      let helmetMeta = helmet.meta.toString();
+      let helmetLink = helmet.link.toString();
+      let helmetScript = helmet.script.toString();
+      let error;
+      if (shell) {
+        content = '';
+        helmetTitle = '';
+        helmetLink = '';
+        helmetMeta = '';
+        helmetScript = '';
+        initScript = '';
+      }
+      const HEAD_SECTION = `<head>
+        ${helmetTitle}
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+        ${[helmetMeta, helmetLink].filter(s => s !== '').join('\n')}
+        ${styleTag}
+      </head>`
+
+      const statusCode = context.status ? context.status : 200
+      res.statusCode = error ? 500 : statusCode
+      res.setHeader("Content-type", "text/html")
+
+      if (error) {
+        console.error('ssr-error: ', error)
+        res.send(`<!doctype html>
+        <html>
+        ${HEAD_SECTION}
+        <body><div id="root"></div>
+        <script>window.__ssrError=true;</script>${scriptTags}</body>
+        </html>`)
+        return
+      }
+
+      res.write(`<!DOCTYPE html>
+      <html>
+      ${HEAD_SECTION}
+      <body>
+      <div id="root">`)
+
+      pipe(res)
+
+      res.write(`</div>
+      ${[
+        initScript,
+        helmetScript,
+        template.renderBottom({ expressCtx }),
+        dllScript
+      ]
+        .filter(s => s !== '')
+        .join('\n')}
+      ${scriptTags}
+      </body>
+      </html>`)
+    },
+    onShellError(x) {
+      console.error("ssr-shell-error: ", x)
+      error = true
+    }
+  })
+  
+}
