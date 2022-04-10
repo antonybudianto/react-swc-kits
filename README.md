@@ -29,8 +29,8 @@ Why not [create-react-app](https://github.com/facebook/create-react-app)?
 
 |                               |                                |                                                                     |                                   |
 | ----------------------------- | ------------------------------ | ------------------------------------------------------------------- | --------------------------------- |
-| [React](https://reactjs.org/) | [Redux](https://redux.js.org/) | [React Helmet Async](https://github.com/staylor/react-helmet-async) | [Express](https://expressjs.com/) |
-| TBC                           | TBC                            | [SWC](https://swc.rs/)                                              | [Jest](https://jestjs.io/)        |
+| [React](https://reactjs.org/) | [pnpm](https://pnpm.io/) | [React Helmet Async](https://github.com/staylor/react-helmet-async) | [Express](https://expressjs.com/) |
+| TBC                           | Microbundle                            | [SWC](https://swc.rs/)                                              | [Jest](https://jestjs.io/)        |
 
 ## Structure
 
