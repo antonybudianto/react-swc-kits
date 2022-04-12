@@ -1,40 +1,40 @@
 import '@babel/polyfill'
 import 'raf/polyfill'
 
-import React from 'react'
-import { hydrate, render } from 'react-dom'
+import { hydrateRoot, createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import { loadableReady } from '@loadable/component'
 
 import { HelmetProvider } from 'react-helmet-async'
 import { UserAgentProvider } from 'react-ua'
 
-import { createClientStore } from '../createStore'
 import App from '../App'
 import 'basscss/css/basscss.css'
 // import { HOME_PATH } from '../constant/url'
-const store = createClientStore(window.INITIAL_STATE)
+
+const renderRoot = (el, container) => {
+  const root = createRoot(container)
+  root.render(el)
+}
+
+const renderHydrateRoot = (el, container) => {
+  hydrateRoot(container, el)
+}
 
 function renderApp(MyApp) {
-  const boot = window.__shell__ ? render : hydrate
+  const boot = window.__shell__ ? renderRoot : renderHydrateRoot
   boot(
     <HelmetProvider>
       <UserAgentProvider>
-        <Provider store={store}>
-          <BrowserRouter>
-            <MyApp />
-          </BrowserRouter>
-        </Provider>
+        <BrowserRouter>
+          <MyApp />
+        </BrowserRouter>
       </UserAgentProvider>
     </HelmetProvider>,
     document.querySelector('#root')
   )
 }
 
-loadableReady(() => {
-  renderApp(App)
-})
+renderApp(App)
 
 // if ('serviceWorker' in navigator) {
 //   window.addEventListener('load', () => {

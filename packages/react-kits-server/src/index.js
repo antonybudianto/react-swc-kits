@@ -5,7 +5,6 @@ import serverRender from './serverRenderer';
 
 export function createReactServer(config) {
   const {
-    createStore,
     getInitialData,
     homePath,
     assetUrl,
@@ -36,10 +35,9 @@ export function createReactServer(config) {
   app.use(homePath, express.static('dist'));
 
   app.get(homePath + '(*)', (req, res) => {
-    const store = createStore();
     // attach cookies to store object as a way to let cookies to be passed into server fetching
-    req.headers.cookie && (store['cookies'] = req.headers.cookie);
-    const promises = getInitialData(req, store);
+    // req.headers.cookie && (store['cookies'] = req.headers.cookie);
+    const promises = getInitialData(req);
     let context = {};
     const iniDataPromise = Promise.all(promises).catch(err =>
       console.error('Error getInitialData:\n', err)
@@ -48,7 +46,6 @@ export function createReactServer(config) {
       .then(() => {
         const data = {
           expressCtx: { req, res },
-          store,
           context,
           onRender,
           assetUrl,
@@ -57,17 +54,9 @@ export function createReactServer(config) {
         return serverRender(data);
       })
       .then(html => {
-        if (context.status) {
-          return res.status(context.status).send(html);
-        }
-        if (context.url) {
-          return res.redirect(302, context.url);
-        }
-        res.send(html);
       })
       .catch(err => {
         console.error('Error serverRender:\n', err);
-        res.sendStatus(500);
       });
   });
 

@@ -13,7 +13,7 @@ Why not [create-react-app](https://github.com/facebook/create-react-app)?
 
 ## Requirement
 
-- Node >= 12
+- Node >= 14
 
 ## Main features
 
@@ -27,10 +27,10 @@ Why not [create-react-app](https://github.com/facebook/create-react-app)?
 
 ## Tech stacks
 
-|                                                                          |                                |                                                                     |                                   |
-| ------------------------------------------------------------------------ | ------------------------------ | ------------------------------------------------------------------- | --------------------------------- |
-| [React](https://reactjs.org/)                                            | [Redux](https://redux.js.org/) | [React Helmet Async](https://github.com/staylor/react-helmet-async) | [Express](https://expressjs.com/) |
-| [loadable-component](https://github.com/smooth-code/loadable-components) | TBC                            | [SWC](https://swc.rs/)                                              | [Jest](https://jestjs.io/)        |
+|                               |                                |                                                                     |                                   |
+| ----------------------------- | ------------------------------ | ------------------------------------------------------------------- | --------------------------------- |
+| [React](https://reactjs.org/) | [pnpm](https://pnpm.io/) | [React Helmet Async](https://github.com/staylor/react-helmet-async) | [Express](https://expressjs.com/) |
+| TBC                           | Microbundle                            | [SWC](https://swc.rs/)                                              | [Jest](https://jestjs.io/)        |
 
 ## Structure
 
@@ -39,7 +39,7 @@ The project consists of following packages:
 - [react-kits-cli](https://github.com/antonybudianto/react-swc-kits/tree/master/packages/react-kits-cli)
 - [react-kits-server](https://github.com/antonybudianto/react-swc-kits/tree/master/packages/react-kits-server)
 
-They're managed by [Lerna](https://github.com/lerna/lerna) so you don't need to do stuff manually (linking, releasing, etc) :D
+They're managed by [pnpm](https://pnpm.io/) so you don't need to do stuff manually (linking, etc) :D
 
 ## Getting started
 
@@ -52,16 +52,20 @@ npx react-kits init myapp
 ```sh
 # First, clone the repo
 # then install
-yarn
+pnpm i
 
 # Bootstrap packages
-yarn bootstrap
+pnpm run bootstrap
 
 # build server (first time, or as needed)
-yarn exec:server yarn build
+pnpm run build:server
 
 # Ready to develop locally!
-yarn temp:start
+pnpm run temp:dev
+
+# Build and serve local
+pnpm run temp:build
+pnpm run temp:servelocal
 ```
 
 ### Release packages
