@@ -93,7 +93,11 @@
     "react-router": "5.0.1",
     "react-router-dom": "5.0.1",
     "react-ua": "0.2.0",
-    "ua-parser-js": "0.7.18"
+    "ua-parser-js": "0.7.18",
+    "graphql": "16.3.0",
+    "urql": "2.2.0",
+    "@urql/core": "2.4.4",
+    "isomorphic-unfetch": "3.1.0"
   },
   "devDependencies": {
     "http-proxy-middleware": "^0.19.1",

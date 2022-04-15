@@ -6,10 +6,13 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { HelmetProvider } from 'react-helmet-async'
 import { UserAgentProvider } from 'react-ua'
+import { Provider } from 'urql'
 
 import App from '../App'
 import 'basscss/css/basscss.css'
 // import { HOME_PATH } from '../constant/url'
+
+import createUrqlClient from './createUrqlClient'
 
 const renderRoot = (el, container) => {
   const root = createRoot(container)
@@ -20,13 +23,17 @@ const renderHydrateRoot = (el, container) => {
   hydrateRoot(container, el)
 }
 
+const { client } = createUrqlClient()
+
 function renderApp(MyApp) {
   const boot = window.__shell__ ? renderRoot : renderHydrateRoot
   boot(
     <HelmetProvider>
       <UserAgentProvider>
         <BrowserRouter>
-          <MyApp />
+          <Provider value={client}>
+            <MyApp />
+          </Provider>
         </BrowserRouter>
       </UserAgentProvider>
     </HelmetProvider>,

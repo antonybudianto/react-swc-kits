@@ -1,8 +1,10 @@
+import 'isomorphic-unfetch';
 import React from 'react';
 import serialize from 'serialize-javascript';
 import { renderToPipeableStream } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { Provider } from 'urql';
 
 const fs = require('fs');
 const path = require('path');
@@ -12,15 +14,17 @@ function resolveCwd(name) {
 }
 
 export default async ({
+  urqlCtx,
   expressCtx,
   context,
   onRender,
   assetUrl = '/',
   template = {
-    renderBottom: () => ''
-  }
+    renderBottom: () => '',
+  },
 }) => {
   const { req, res } = expressCtx;
+  const { client, ssr } = urqlCtx;
   const reqUrl = req.url;
   let dllScript = '';
   if (process.env.NODE_ENV === 'development') {
@@ -40,30 +44,33 @@ export default async ({
   const rootEl = (
     <HelmetProvider context={helmetCtx}>
       <StaticRouter location={reqUrl} context={context}>
-        {appEl}
+        <Provider value={client}>{appEl}</Provider>
       </StaticRouter>
     </HelmetProvider>
   );
 
   const statsFile = resolveCwd('dist/build-manifest.json');
   const stats = JSON.parse(fs.readFileSync(statsFile, { encoding: 'utf-8' }));
-  const styleTag = stats['app.css'] ? `<link href="${stats['app.css']}" rel="stylesheet" />` : '';
-  const scriptTags = `<script src="${
-    stats['vendor.js']
-  }" type="text/javascript"></script>
+  const styleTag = stats['app.css']
+    ? `<link href="${stats['app.css']}" rel="stylesheet" />`
+    : '';
+  const scriptTags = `<script src="${stats['vendor.js']}" type="text/javascript"></script>
   <script src="${stats['app.js']}" type="text/javascript"></script>`;
 
   const jsx = rootEl;
-  
+
   let initScript = `<script type="text/javascript">window.INITIAL_STATE = ${serialize(
     {}
-  )};</script>`;  
+  )};</script>`;
 
   const { pipe } = renderToPipeableStream(jsx, {
     onAllReady() {
       if (context.url) {
         return res.redirect(302, context.url);
       }
+
+      const data = JSON.stringify(ssr.extractData());
+      console.log('data:', data);
 
       const { helmet } = helmetCtx;
       let helmetTitle = helmet.title.toString();
@@ -83,50 +90,52 @@ export default async ({
         ${helmetTitle}
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-        ${[helmetMeta, helmetLink].filter(s => s !== '').join('\n')}
+        ${[helmetMeta, helmetLink].filter((s) => s !== '').join('\n')}
         ${styleTag}
-      </head>`
+      </head>`;
 
-      const statusCode = context.status ? context.status : 200
-      res.statusCode = error ? 500 : statusCode
-      res.setHeader("Content-type", "text/html")
+      const statusCode = context.status ? context.status : 200;
+      res.statusCode = error ? 500 : statusCode;
+      res.setHeader('Content-type', 'text/html');
 
       if (error) {
-        console.error('ssr-error: ', error)
+        console.error('ssr-error: ', error);
         res.send(`<!doctype html>
         <html>
         ${HEAD_SECTION}
         <body><div id="root"></div>
         <script>window.__ssrError=true;</script>${scriptTags}</body>
-        </html>`)
-        return
+        </html>`);
+        return;
       }
 
       res.write(`<!DOCTYPE html>
       <html>
       ${HEAD_SECTION}
       <body>
-      <div id="root">`)
+      <div id="root">`);
 
-      pipe(res)
+      pipe(res);
 
       res.write(`</div>
+      <script>
+      window.__URQL_DATA__ = ${data};
+      </script>
       ${[
         initScript,
         helmetScript,
         template.renderBottom({ expressCtx }),
-        dllScript
+        dllScript,
       ]
-        .filter(s => s !== '')
+        .filter((s) => s !== '')
         .join('\n')}
       ${scriptTags}
       </body>
-      </html>`)
+      </html>`);
     },
     onShellError(x) {
-      console.error("ssr-shell-error: ", x)
-      error = true
-    }
-  })
-  
-}
+      console.error('ssr-shell-error: ', x);
+      error = true;
+    },
+  });
+};
