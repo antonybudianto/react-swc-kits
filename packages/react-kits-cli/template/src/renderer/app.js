@@ -7,8 +7,11 @@ import { UserAgentProvider } from 'react-ua'
 import { getInitialData } from '../routes'
 import { HOME_PATH } from '../constant/url'
 import App from '../App'
+import createUrqlClient from './createUrqlClient'
 
+const urqlCtx = createUrqlClient()
 const app = createReactServer({
+  urqlCtx,
   getInitialData,
   homePath: HOME_PATH,
   assetUrl: process.env.APP_ASSET_PATH,

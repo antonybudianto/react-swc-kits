@@ -4,8 +4,6 @@ import { hot } from 'react-hot-loader/root'
 
 import renderAppRoutes from './routes'
 
-import './App.css'
-
 class App extends Component {
   render() {
     return (

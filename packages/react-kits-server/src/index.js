@@ -5,22 +5,23 @@ import serverRender from './serverRenderer';
 
 export function createReactServer(config) {
   const {
+    urqlCtx,
     getInitialData,
     homePath,
     assetUrl,
     onRender,
     template,
-    customMiddleware = () => {}
+    customMiddleware = () => {},
   } = config;
   const app = express();
   const loggerEnv = process.env.NODE_ENV === 'development' ? 'dev' : 'combined';
   const logger = morgan(loggerEnv, {
-    skip: function(req, res) {
+    skip: function (req, res) {
       if (process.env.NODE_ENV === 'development') {
         return false;
       }
       return res.statusCode < 400;
-    }
+    },
   });
 
   app.use(logger);
@@ -39,7 +40,7 @@ export function createReactServer(config) {
     // req.headers.cookie && (store['cookies'] = req.headers.cookie);
     const promises = getInitialData(req);
     let context = {};
-    const iniDataPromise = Promise.all(promises).catch(err =>
+    const iniDataPromise = Promise.all(promises).catch((err) =>
       console.error('Error getInitialData:\n', err)
     );
     iniDataPromise
@@ -49,13 +50,13 @@ export function createReactServer(config) {
           context,
           onRender,
           assetUrl,
-          template
+          template,
+          urqlCtx,
         };
         return serverRender(data);
       })
-      .then(html => {
-      })
-      .catch(err => {
+      .then((html) => {})
+      .catch((err) => {
         console.error('Error serverRender:\n', err);
       });
   });
